@@ -28,3 +28,22 @@ export function filterProducts(products: Product[], filter: ProductFilter = {}):
   if (sort === "desc") return [...result].sort((a, b) => b.price - a.price);
   return result;
 }
+
+
+// 1. Tìm sản phẩm trong khoảng giá [min, max]
+export function searchByPriceRange(
+  products: Product[],
+  min: number,
+  max: number
+): Product[] {
+  return products.filter((p) => p.price >= min && p.price <= max);
+}
+
+// 2. Đếm số lượng sản phẩm theo từng danh mục bằng reduce
+export function groupByCategory(products: Product[]): Record<string, number> {
+  return products.reduce<Record<string, number>>((acc, product) => {
+    const cat = product.category;
+    acc[cat] = (acc[cat] ?? 0) + 1;
+    return acc;
+  }, {});
+}
